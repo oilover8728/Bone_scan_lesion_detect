@@ -69,6 +69,7 @@ for i in range(len(images_folder)):
 for i in range(len(images_folder)):
     Check_jpg_and_json(dataset[i][0],dataset[i][1])
     
+creat_folder(opt.out_folder)
 
 creat_folder(opt.out_folder + 'lesion')
 creat_folder(opt.out_folder + 'lesion/images')
