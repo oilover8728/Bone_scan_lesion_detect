@@ -23,7 +23,7 @@ from model import Net
 parser = argparse.ArgumentParser()
 parser.add_argument('--img', type=str, default='./example/BS00145_20150923_c564.png', help='input indiviual image') #img/fold
 parser.add_argument('--img_2', type=str, default='./example/BS00145_20160219_fb7b.png', help='input indiviual image') #img/fold
-parser.add_argument('--patch', type=str, default='not', help='input format is patch or not')
+parser.add_argument('--patch', type=str, default='False', help='input format is patch or not')
 parser.add_argument('--patch_img', type=str, default='./example/BS00145_13_20150923_c564.png', help='input indiviual image') #img/fold
 parser.add_argument('--patch_img_2', type=str, default='./example/BS00145_13_20160219_fb7b.png', help='input indiviual image') #img/fold
 parser.add_argument('--weight', type=str, default='./weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest', help='pre-trained weight')
@@ -165,7 +165,7 @@ model.load_state_dict(torch.load(model_path))
 model.eval()
 
 if(os.path.isfile(opt.img) and os.path.isfile(opt.img_2)):
-    if(opt.patch == 'not'):
+    if(opt.patch == 'False'):
         print('Input whole images')
         imgs_all = []
         pre_bbox_all = []
