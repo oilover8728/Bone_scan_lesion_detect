@@ -38,6 +38,19 @@ default :
 * set_device = 'gpu'
 * out_folder = './result/'
 ## 2. pseudo_label.py :  
+使用pre-trained好的weight，對於validation data產生出pseudo labels  
+指令 : `python pseudo_label.py --img "images1"  --img_2 "images2" --patch "patch data or not " --patch_img "image1" --patch_img_2 "image2" --weight "pre-trained weight" --threshold "confience score" --set_device "GPU/CPU" --out_folder "output folder path" `  
+default : 
+* img = './example/BS00145_20150923_c564.png'
+* img_2 = './example/BS00145_20160219_fb7b.png'
+* patch = 'False'
+* patch_img = 'False'
+* patch_img = './example/BS00145_13_20150923_c564.png'
+* patch_img_2 = './example/BS00145_13_20160219_fb7b.png'
+* weight = './weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest'
+* threshold = 0.56
+* set_device = 'gpu'
+* out_folder = './result/'
 ## 3. train_patch.py :  
 ## 4. train_registration_patch.py :  
 ## 5. train_whole.py :  
