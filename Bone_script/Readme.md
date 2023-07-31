@@ -21,19 +21,23 @@ BS00000_0000000_1234.json 用來寫入新資料儲存的空白json檔
 1. Step01_rm_useless_data.py :
 會將原始檔案20211220 Cleaned labelme JSON/JPEGImages中有正確病灶框的樣本集中到lesion資料，並分離出normal/superscan的資料  
 指令 : `python Step01_rm_useless_data.py --in_images "images folder path" --in_labels "labels folder path" --out_folder "output folder path" `  
-default : in_images = './JPEGImages/'     in_labels = './20211220 Cleaned labelme JSON/'     out_folder = './Step1_data/'  
+default : in_images = './JPEGImages/'     in_labels = './20211220 Cleaned labelme JSON/'     out_folder = './Step1_data/'
+    
 2. Step02_rm_regressbox.py :
 將經過step1處理後的lesion/內的資料，去除含有regress框的標註，並清除只包含regress框的data  
 指令 : `python Step02_rm_regressbox.py --in_folder "folder path" `  
-default : in_folder = './Step1_data/lesion/'   
+default : in_folder = './Step1_data/lesion/'
+  
 3. Step03_crop_people_resize.py  
 將經過step2整理過後的資料，進一步裁切出人物的全身正面與反面圖像區域，因為醫師的標註都在這裡，並統一將解析度改為1024x1024  
 指令 : `python Step03_crop_people_resize.py --in_folder "input folder path" --train_path "training data folder path" --out_folder "output folder path" `  
-default : in_folder = './Step1_data/lesion/'     train_path = './Crop_label_data/'     out_folder = './Step3_crop_data/'  
+default : in_folder = './Step1_data/lesion/'     train_path = './Crop_label_data/'     out_folder = './Step3_crop_data/'
+  
 4. Step04_patch_slice.py (optinal)
 將step3裁切過後的資料切成patch，藉此增加訓練影像張數，並讓模型學習關注更局部的資訊 (可選)  
 指令 : `python Step04_patch_slice.py --in_folder "input folder path" --patch_registration "patch slicing after registration or not" --out_folder "output folder path" `    
-default : in_folder = './Step1_data/lesion/'     patch_registration = 'False'     out_folder = './Step3_crop_data/'   
+default : in_folder = './Step1_data/lesion/'     patch_registration = 'False'     out_folder = './Step3_crop_data/'
+  
 5. Step05_patient_folder.py  
 將step3全身影像或是step4切完patch的資料依據病例號放進對應資料夾，以此方便訓練時決定訓練/測試的病人數量
 指令 : `python Step05_patient_folder.py --in_folder "input folder path" --out_folder "output folder path" `    
