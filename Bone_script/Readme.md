@@ -10,3 +10,4 @@ Crop_label_data : 代表我自行標註的人物全身與反面全身檔案，�
 Step1_data
 Step3_crop_data
 Step4_patch_data
+Step5_patient_data
