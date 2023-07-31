@@ -18,7 +18,7 @@ vision : 計算object detection model的相關函式
 BS00000_0000000_1234.json 用來寫入新資料儲存的空白json檔  
 
 ### 使用方式 : 
-1. Step01_rm_useless_data.py :
+Step01_rm_useless_data.py :
 =============
   會將原始檔案20211220 Cleaned labelme JSON/JPEGImages中有正確病灶框的樣本集中到lesion資料，並分離出normal/superscan的資料 
   指令 : python Step01_rm_useless_data.py --in_images "images folder path" --in_labels "labels folder path" --out_folder "output folder path"  
