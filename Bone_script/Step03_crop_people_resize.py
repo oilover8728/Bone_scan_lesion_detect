@@ -346,7 +346,7 @@ device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cp
 
 model = FCOS_model()
 model.to(device)
-model_path = './weight/find_people/crop'
+model_path = './weight/crop'
 model.load_state_dict(torch.load(model_path))
 model.eval()
 
