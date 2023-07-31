@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>BS00033_20151209_fdaa.jpg</filename>
+	<path>C:\Users\oilov\Downloads\20220719 Image_lesion_or_not\lesion\images\BS00033_20151209_fdaa.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1021</width>
+		<height>994</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>person</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>4</xmin>
+			<ymin>22</ymin>
+			<xmax>595</xmax>
+			<ymax>933</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>BS00032_20110406_8a02.jpg</filename>
+	<path>C:\Users\oilov\Downloads\20220719 Image_lesion_or_not\lesion\images\BS00032_20110406_8a02.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1232</width>
+		<height>906</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>person</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>52</xmin>
+			<ymin>31</ymin>
+			<xmax>630</xmax>
+			<ymax>876</ymax>
+		</bndbox>
+	</object>
+</annotation>

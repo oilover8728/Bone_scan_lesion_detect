@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>BS00055_20151127_2c1a.jpg</filename>
+	<path>C:\Users\oilov\Downloads\20220719 Image_lesion_or_not\lesion\images\BS00055_20151127_2c1a.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1132</width>
+		<height>860</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>person</name>
+		<pose>Unspecified</pose>
+		<truncated>1</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>1</xmin>
+			<ymin>26</ymin>
+			<xmax>630</xmax>
+			<ymax>860</ymax>
+		</bndbox>
+	</object>
+</annotation>
