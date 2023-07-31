@@ -144,6 +144,7 @@ print("Pair data : ",len(train_pair_images))
 '''
 
 # name = 'patch_'
+creat_folder( opt.out_folder)
 creat_folder( opt.out_folder + 'images')
 creat_folder( opt.out_folder + 'labels')
 
