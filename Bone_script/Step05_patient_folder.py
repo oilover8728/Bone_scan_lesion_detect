@@ -41,6 +41,7 @@ now_images.sort()
 now_labels.sort()
 print("Input Data (images/labels) : ", len(now_images), len(now_labels))
 
+creat_folder(opt.out_folder)
 creat_folder(opt.out_folder + 'images')
 creat_folder(opt.out_folder + 'labels')
 
