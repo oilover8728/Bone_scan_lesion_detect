@@ -127,6 +127,7 @@ now_labels.sort()
 print("Lesion data (images/labels) : ",len(now_images), len(now_labels))
 
 copy_path = opt.out_folder
+creat_folder(copy_path)
 creat_folder(copy_path + 'images')
 creat_folder(copy_path + 'labels')
 # creat_folder(copy_path + 'images_result')
