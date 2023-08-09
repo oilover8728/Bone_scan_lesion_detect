@@ -469,7 +469,7 @@ if(opt.train=='True'):
         print('Model Save!!')
         print("============================================================")
     print('==== BEST model result ====')
-    model_path = save_best_pat
+    model_path = save_best_path
     model.load_state_dict(torch.load(model_path))
     model = model.to(device)
     model.eval()
