@@ -36,7 +36,9 @@ parser.add_argument('--pseudo', type=str, default='False', help='Train with pseu
 parser.add_argument('--seed', type=int, default=115, help='set random seed')
 parser.add_argument('--epoch', type=int, default=1, help='set epoch number') 
 parser.add_argument('--batch_size', type=int, default=1, help='set batch size') 
-parser.add_argument('--name', type=str, default='save_model', help='save model name') 
+parser.add_argument('--name', type=str, default='save_model', help='save model name')
+parser.add_argument('--train', type=str, default='True', help='Train/Valid')
+parser.add_argument('--weight', type=str, default='./weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest', help='pre-trained weight')
 parser.add_argument('--set_device', type=str, default='gpu', help='cuda or not')
 parser.add_argument('--out_weight', type=str, default='./weight/', help='output training weight path')
 opt = parser.parse_args()
@@ -166,57 +168,51 @@ training_reports = {
     # fixed train-valid data
 '''
 
-train_images = glob.glob(opt.in_fold + 'train/images/*.png')
-train_labels = glob.glob(opt.in_fold + 'train/labels/*.json')
+if(opt.train=='True'):
+    train_images = glob.glob(opt.in_fold + 'train/images/*.png')
+    train_labels = glob.glob(opt.in_fold + 'train/labels/*.json')
+    train_images.sort()
+    train_labels.sort()
+    print('Training Data (images/labels) : ',len(train_images), len(train_labels))
+
+    train_pair_images = []
+    train_pair_labels = []
+    images_count = 0
+    last_name_p = train_labels[0][-20:-19] 
+    temp_set = set()
+    for i in range(len(train_labels)):
+        image_t = []
+        name_position = train_labels[i][-32:-22]
+        if(train_labels[i][-20:-19]=='1'): #1代表有兩張影像
+            image_t.append(train_images[images_count])
+            image_t.append(train_images[images_count+1])
+            train_pair_images.append(image_t)
+            train_pair_labels.append(train_labels[i])
+            images_count+=2
+        else: # 0代表是只有單一張，複製兩份作為input
+            image_t.append(train_images[images_count])
+            image_t.append(train_images[images_count])
+            train_pair_images.append(image_t)
+            train_pair_labels.append(train_labels[i])
+            images_count+=1
+
+    print(' === Train stage === ')
+    print('pair number : ',len(train_pair_images))
+
+    pair_train=[]
+    for i in range(len(train_pair_images)):
+        package=[]
+        package.append(train_pair_images[i])
+        package.append(train_pair_labels[i])
+        pair_train.append(package)
+    
 valid_images = glob.glob(opt.in_fold + 'valid/images/*.png')
 valid_labels = glob.glob(opt.in_fold + 'valid/labels/*.json')
-
-train_images.sort()
-train_labels.sort()
 valid_images.sort()
 valid_labels.sort()
 
-print('Training Data (images/labels) : ',len(train_images), len(train_labels))
 print('Validation Data (images/labels) : ',len(valid_images), len(valid_labels))
 
-if(opt.pseudo == 'True'):
-    pseudo_images = glob.glob(opt.in_fold +'pseudo/images/*.png')
-    pseudo_labels = glob.glob(opt.in_fold +'pseudo/labels/*.json')
-    pseudo_images.sort()
-    pseudo_labels.sort()
-    print('Pseudo Label (images/labels) : ',len(pseudo_images), len(pseudo_labels))
-
-train_pair_images = []
-train_pair_labels = []
-images_count = 0
-last_name_p = train_labels[0][-20:-19] 
-temp_set = set()
-for i in range(len(train_labels)):
-    image_t = []
-    name_position = train_labels[i][-32:-22]
-    if(train_labels[i][-20:-19]=='1'): #1代表有兩張影像
-        image_t.append(train_images[images_count])
-        image_t.append(train_images[images_count+1])
-        train_pair_images.append(image_t)
-        train_pair_labels.append(train_labels[i])
-        images_count+=2
-    else: # 0代表是只有單一張，複製兩份作為input
-        image_t.append(train_images[images_count])
-        image_t.append(train_images[images_count])
-        train_pair_images.append(image_t)
-        train_pair_labels.append(train_labels[i])
-        images_count+=1
-
-print(' === Train stage === ')
-print('pair number : ',len(train_pair_images))
-
-pair_train=[]
-for i in range(len(train_pair_images)):
-    package=[]
-    package.append(train_pair_images[i])
-    package.append(train_pair_labels[i])
-    pair_train.append(package)
-    
 valid_pair_images = []
 valid_pair_labels = []
 images_count = 0
@@ -252,6 +248,13 @@ for i in range(len(valid_pair_images)):
     # Pseudo label(Optinal)
 '''
 if(opt.pseudo == 'True'):
+    
+    pseudo_images = glob.glob(opt.in_fold +'pseudo/images/*.png')
+    pseudo_labels = glob.glob(opt.in_fold +'pseudo/labels/*.json')
+    pseudo_images.sort()
+    pseudo_labels.sort()
+    print('Pseudo Label (images/labels) : ',len(pseudo_images), len(pseudo_labels))
+    
     pseudo_pair_images = []
     pseudo_pair_labels = []
     images_count = 0
@@ -307,13 +310,16 @@ valid_transform = albu.Compose([
     albu.Resize(height=img_hegiht, width=img_width, p=1),
 ], bbox_params=albu.BboxParams(format='pascal_voc', label_fields=[]))
 
-train_dataset = Pair_Registration_ImageDataset(pair_train, train_transform, train2_transform)
+if(opt.train == 'True'):
+    train_dataset = Pair_Registration_ImageDataset(pair_train, train_transform, train2_transform)
+    print("Dataset (Train) : ",len(train_dataset))
+
 valid_dataset = Pair_Registration_ImageDataset(pair_valid, valid_transform, valid_transform)
+print("Dataset (Valid) : ", len(valid_dataset))
+
 if(opt.pseudo == 'True'):
     pseudo_train_dataset = Pseudo_Pair_Registration_ImageDataset(pseudo_pair_train, train_transform, train2_transform)
-    
-print("Dataset (Train/Valid) : ",len(train_dataset), len(valid_dataset))
-
+    print("Dataset (Pseudo) : ",len(pseudo_train_dataset))
 
 # Model setting
 model = Net()
@@ -340,8 +346,9 @@ optimizer = torch.optim.AdamW(model.parameters(), lr = lr, weight_decay=0.01)
 # Scheduler
 scheduler_steplr = CosineAnnealingLR(optimizer, num_epochs)
 scheduler_warmup = GradualWarmupScheduler(optimizer, multiplier=1, total_epoch=warm_up_epoches, after_scheduler=scheduler_steplr)
-      
-train_Dataloader = DataLoader(dataset = train_dataset, batch_size = batch, shuffle = True, num_workers = num_workers, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
+
+if(opt.train=='True'):
+    train_Dataloader = DataLoader(dataset = train_dataset, batch_size = batch, shuffle = True, num_workers = num_workers, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
 if(opt.pseudo == 'True'):
     pseudo_train_Dataloader = DataLoader(dataset = pseudo_train_dataset, batch_size = batch, shuffle = True, num_workers = num_workers, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
 valid_Dataloader = DataLoader(dataset = valid_dataset, batch_size = batch, shuffle = False, num_workers = num_workers, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
@@ -358,60 +365,78 @@ Best_cat_AP50 = [0,0,0,0,0]
 save_best_path = opt.out_weight + Name + '_regis_best'
 save_path = opt.out_weight + Name + '_regis'
 
-for epoch in range(num_epochs):
+if(opt.train == 'True'):
+    for epoch in range(num_epochs):
 
-    # train for one epoch, printing every 10 iterations
-    if(opt.pseudo == 'True'):
-        print("Pseudo stage :")
-        metric_logger = train_a_epoch(model, optimizer, pseudo_train_Dataloader, device, epoch, print_freq=100)
-    print("Ground truth stage :")
-    metric_logger = train_a_epoch(model, optimizer, train_Dataloader, device, epoch, print_freq=100)
-    
-    # Scheduler
-    scheduler_warmup.step()
-    lr_rate.append(optimizer.param_groups[0]['lr'])
-    # evaluate on the test dataset
+        # train for one epoch, printing every 10 iterations
+        if(opt.pseudo == 'True'):
+            print("Pseudo stage :")
+            metric_logger = train_a_epoch(model, optimizer, pseudo_train_Dataloader, device, epoch, print_freq=100)
+        print("Ground truth stage :")
+        metric_logger = train_a_epoch(model, optimizer, train_Dataloader, device, epoch, print_freq=100)
+
+        # Scheduler
+        scheduler_warmup.step()
+        lr_rate.append(optimizer.param_groups[0]['lr'])
+        # evaluate on the test dataset
+        coco_eval = evaluate(model, valid_Dataloader, device=device)
+        ap30, ap50, ap75, map30_95, map50_95, mar_50, mar30_95, mar50_95, cat30_score, cat50_score = get_ap30_50_95(coco_eval)
+        # track training stats
+        training_reports['tr_loss'].append(metric_logger.loss.avg)
+        training_reports['lr'].append(optimizer.param_groups[0]['lr'])
+        #     training_reports['tr_cls_loss'].append(metric_logger.loss_classifier.avg)
+        #     training_reports['tr_bbox_loss'].append(metric_logger.loss_box_reg.avg)
+        training_reports['tr_cls_loss'].append(metric_logger.classification.avg)
+        training_reports['tr_bbox_loss'].append(metric_logger.bbox_regression.avg)
+        training_reports['val_AP_30'].append(ap30)
+        training_reports['val_AP_50'].append(ap50)
+        training_reports['val_AP_75'].append(ap75)
+        training_reports['val_AP_50_95'].append(map50_95)
+        training_reports['val_AR_50_95'].append(mar50_95)
+        training_reports['val_AR_50'].append(mar_50)
+
+        # if max_map_score < map_score:
+        Best_cat_AP50 = cat50_score
+        print('==== mAP50 for each class ====')
+        for i in range(1,len(cat50_score)+1):
+            print(category_id_to_name[i], ' : ', cat50_score[i-1])
+        if(ap50 > max_map_score):
+            max_map_score = ap50
+            training_reports['best_epoch'] = epoch
+            torch.save(model.state_dict(), save_best_path)
+        torch.save(model.state_dict(), save_path)
+        print('Model Save!!')
+        print("============================================================")
+
+    print('==== BEST model result ====')
+    model_path = save_best_path
+    model.load_state_dict(torch.load(model_path))
+    model = model.to(device)
+    model.eval()
+
+    valid_Dataloader = DataLoader(dataset = valid_dataset, batch_size = batch, shuffle = False, num_workers = 0, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
+    model.eval()
     coco_eval = evaluate(model, valid_Dataloader, device=device)
     ap30, ap50, ap75, map30_95, map50_95, mar_50, mar30_95, mar50_95, cat30_score, cat50_score = get_ap30_50_95(coco_eval)
-    # track training stats
-    training_reports['tr_loss'].append(metric_logger.loss.avg)
-    training_reports['lr'].append(optimizer.param_groups[0]['lr'])
-    #     training_reports['tr_cls_loss'].append(metric_logger.loss_classifier.avg)
-    #     training_reports['tr_bbox_loss'].append(metric_logger.loss_box_reg.avg)
-    training_reports['tr_cls_loss'].append(metric_logger.classification.avg)
-    training_reports['tr_bbox_loss'].append(metric_logger.bbox_regression.avg)
-    training_reports['val_AP_30'].append(ap30)
-    training_reports['val_AP_50'].append(ap50)
-    training_reports['val_AP_75'].append(ap75)
-    training_reports['val_AP_50_95'].append(map50_95)
-    training_reports['val_AR_50_95'].append(mar50_95)
-    training_reports['val_AR_50'].append(mar_50)
-    
-    # if max_map_score < map_score:
-    Best_cat_AP50 = cat50_score
+    print("mAP75 : ",ap75)
+    print("Recall : " ,mar_50)
     print('==== mAP50 for each class ====')
     for i in range(1,len(cat50_score)+1):
         print(category_id_to_name[i], ' : ', cat50_score[i-1])
-    if(ap50 > max_map_score):
-        max_map_score = ap50
-        training_reports['best_epoch'] = epoch
-        torch.save(model.state_dict(), save_best_path)
-    torch.save(model.state_dict(), save_path)
-    print('Model Save!!')
-    print("============================================================")
-    
-print('==== BEST model result ====')
-model_path = save_best_path
-model.load_state_dict(torch.load(model_path))
-model = model.to(device)
-model.eval()
+else:
+    print('==== Validation result ====')
+    if(opt.weight != 'None'):
+        model_path = opt.weight
+        model.load_state_dict(torch.load(model_path))
+    model = model.to(device)
+    model.eval()
 
-valid_Dataloader = DataLoader(dataset = valid_dataset, batch_size = batch, shuffle = False, num_workers = 0, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
-model.eval()
-coco_eval = evaluate(model, valid_Dataloader, device=device)
-ap30, ap50, ap75, map30_95, map50_95, mar_50, mar30_95, mar50_95, cat30_score, cat50_score = get_ap30_50_95(coco_eval)
-print("mAP75 : ",ap75)
-print("Recall : " ,mar_50)
-print('==== mAP50 for each class ====')
-for i in range(1,len(cat50_score)+1):
-    print(category_id_to_name[i], ' : ', cat50_score[i-1])
+    valid_Dataloader = DataLoader(dataset = valid_dataset, batch_size = batch, shuffle = False, num_workers = 0, collate_fn=utils.collate_fn, worker_init_fn=seed_worker, generator=g)
+    model.eval()
+    coco_eval = evaluate(model, valid_Dataloader, device=device)
+    ap30, ap50, ap75, map30_95, map50_95, mar_50, mar30_95, mar50_95, cat30_score, cat50_score = get_ap30_50_95(coco_eval)
+    print("mAP75 : ",ap75)
+    print("Recall : " ,mar_50)
+    print('==== mAP50 for each class ====')
+    for i in range(1,len(cat50_score)+1):
+        print(category_id_to_name[i], ' : ', cat50_score[i-1])
