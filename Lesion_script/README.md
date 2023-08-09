@@ -31,7 +31,6 @@ default :
 * img = './example/BS00145_20150923_c564.png'
 * img_2 = './example/BS00145_20160219_fb7b.png'
 * patch = 'False'
-* patch_img = 'False'
 * patch_img = './example/BS00145_13_20150923_c564.png'
 * patch_img_2 = './example/BS00145_13_20160219_fb7b.png'
 * weight = './weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest'
