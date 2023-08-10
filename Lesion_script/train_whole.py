@@ -40,7 +40,7 @@ parser.add_argument('--epoch', type=int, default=50, help='set epoch number')
 parser.add_argument('--batch_size', type=int, default=4, help='set batch size') 
 parser.add_argument('--name', type=str, default='save_model', help='save model name')
 parser.add_argument('--train', type=str, default='True', help='Train/Valid')
-parser.add_argument('--weight', type=str, default='./weight/0529_FCOS_pair_STA_Pseudo_seed115_for_recallbest', help='pre-trained weight')
+parser.add_argument('--weight', type=str, default='./weight/0809_FCOS_whole_pair_STOD_seed115_recallbest', help='pre-trained weight')
 parser.add_argument('--set_device', type=str, default='gpu', help='cuda or not')
 parser.add_argument('--out_weight', type=str, default='./weight/', help='output training weight path')
 opt = parser.parse_args()
@@ -511,7 +511,7 @@ if(opt.train=='True'):
 else:
     print('==== Validation result ====')
     if(opt.weight != 'None'):
-        model_path = save_best_path
+        model_path = opt.weight
         model.load_state_dict(torch.load(model_path))
     model = model.to(device)
     model.eval()
