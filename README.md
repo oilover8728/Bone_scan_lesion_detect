@@ -8,7 +8,8 @@
 有個問題是模型的weight 因為檔案太大所以push不上來，可以從雲端下載  
 <https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
 * crop 放入Bone_script/weight 資料夾內代表用來crop影像中anterior/posterior的模型weight  
-* 0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest 和 0809_FCOS_whole_pair_STOD_seed115_recallbest  
+* 0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest
+* 0809_FCOS_whole_pair_STOD_seed115_recallbest  
 放入Lesion_script/weight 資料夾內分別代表Patch/Whole image訓練出來的weight  
 即可確保所有程式正常運作  
   
