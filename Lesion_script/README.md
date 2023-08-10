@@ -50,7 +50,7 @@ default :
 * out_fold = './04_Pseudo_labels/'
 ## 3. train_patch.py :  
 訓練一個輸入為兩張正常patch影像的模型  
-`python train_patch.py --in_fold "folder path"  --pseudo "pseudo label or not" --seed "seed number" --kfold "set n as validation" --epoch "epoch number" --batch_size "batch size" --name "output weight name" --set_device " gpu/cpu" --out_weight "output weight folder path" `   
+`python train_patch.py --in_fold "folder path"  --pseudo "pseudo label or not" --seed "seed number" --kfold "set n as validation" --epoch "epoch number" --batch_size "batch size" --name "output weight name" --train "train/valid" --weight "valid pre-trained weight" --set_device " gpu/cpu" --out_weight "output weight folder path" `   
 default : 
 * in_fold = './02_Patch_data/'
 * pseudo = 'False'
@@ -59,11 +59,13 @@ default :
 * epoch = 1
 * batch_size = 1
 * name = save_model
+* train = True
+* weight = './weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest'
 * set_device = 'gpu'
 * out_weight = './weight/'
 ## 4. train_registration_patch.py :  
 訓練一個輸入為兩張先registration再切patch的影像的模型  
-`python train_registration_patch.py --in_fold "folder path"  --pseudo "pseudo label or not" --seed "seed number" --kfold "set n as validation" --epoch "epoch number" --batch_size "batch size" --name "output weight name" --set_device " gpu/cpu" --out_weight "output weight folder path" `  
+`python train_registration_patch.py --in_fold "folder path"  --pseudo "pseudo label or not" --seed "seed number" --kfold "set n as validation" --epoch "epoch number" --batch_size "batch size" --name "output weight name" --train "train/valid" --weight "valid pre-trained weight" --set_device " gpu/cpu" --out_weight "output weight folder path" `  
 default : 
 * in_fold = './03_Patch_registration/'
 * pseudo = 'False'
@@ -72,11 +74,13 @@ default :
 * epoch = 1
 * batch_size = 1
 * name = save_model
+* train = True
+* weight = './weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest'
 * set_device = 'gpu'
 * out_weight = './weight/'  
 ## 5. train_whole.py :  
 訓練一個輸入為兩張病人全身影像的模型  
-`python train_whole.py --in_fold "folder path"  --normal "normal data or not" --pseudo "pseudo label or not" --seed "seed number" --kfold "set n as validation" --epoch "epoch number" --batch_size "batch size" --name "output weight name" --set_device " gpu/cpu" --out_weight "output weight folder path" `  
+`python train_whole.py --in_fold "folder path"  --normal "normal data or not" --pseudo "pseudo label or not" --seed "seed number" --kfold "set n as validation" --epoch "epoch number" --batch_size "batch size" --name "output weight name" --train "train/valid" --weight "valid pre-trained weight" --set_device " gpu/cpu" --out_weight "output weight folder path" `  
 default : 
 * in_fold = './03_Patch_registration/'
 * normal = 'False'
@@ -86,5 +90,7 @@ default :
 * epoch = 1
 * batch_size = 1
 * name = save_model
+* train = True
+* weight = './weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest'
 * set_device = 'gpu'
 * out_weight = './weight/' 
