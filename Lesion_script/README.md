@@ -91,6 +91,6 @@ default :
 * batch_size = 1
 * name = save_model
 * train = True
-* weight = './weight/0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest'
+* weight = './weight/0809_FCOS_whole_pair_STOD_seed115_recallbest'
 * set_device = 'gpu'
 * out_weight = './weight/' 
