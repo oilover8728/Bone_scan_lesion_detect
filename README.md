@@ -5,7 +5,7 @@
 * Bone script (資料前處理)  
 * Lesion script (模型訓練和預測)  
   
-有個問題是模型的weight 因為檔案太大所以push不上來，可以從雲端下載  
+因為模型的weight檔案太大push不上來，請從雲端下載  
 <https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
 * crop  
   放入Bone_script/weight 資料夾內代表用來crop影像中anterior/posterior的模型weight   
