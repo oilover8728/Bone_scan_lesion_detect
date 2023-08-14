@@ -5,7 +5,12 @@
   
 * Bone script (資料前處理)  
 * Lesion script (模型訓練和預測)  
-  
+
+資料部分 :
+請使用iir的帳號到雲端上下載
+* Original_data 請下載後直接將裡面包含的資料夾放到Bone_script/ 底下  
+* Detect_data 內包含Lesion_script/內處理過可用來直接訓練的資料，解壓縮完將3個資料夾放到Lesion_script/ 底下  
+
 因為模型的weight檔案太大push不上來，請從雲端下載  
 <https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
 * crop  
@@ -21,3 +26,4 @@
 requirment.txt為所使用套件  
 pip: -r requirements.txt  
 安裝相應版本來保證所有程式運作正常  
+
