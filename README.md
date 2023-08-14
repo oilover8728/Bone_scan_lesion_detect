@@ -7,12 +7,13 @@
 * Lesion script (模型訓練和預測)  
 
 資料部分 :
-請使用iir的帳號到雲端上下載
+請使用iir的帳號到雲端上下載  
+<https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
+
 * Original_data 請下載後直接將裡面包含的資料夾放到Bone_script/ 底下  
 * Detect_data 內包含Lesion_script/內處理過可用來直接訓練的資料，解壓縮完將3個資料夾放到Lesion_script/ 底下  
-
-因為模型的weight檔案太大push不上來，請從雲端下載  
-<https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
+  
+Pre-trained weights :   
 * crop  
   放入Bone_script/weight 資料夾內代表用來crop影像中anterior/posterior的模型weight   
 * 0606_FCOS_real_STOD_reg_pseudo_Deform_SENet_seed115_recallbest
