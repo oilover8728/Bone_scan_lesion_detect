@@ -7,10 +7,9 @@
 * Lesion script (模型訓練和預測)  
   
 資料以及pre-trained weight請使用iir的帳號到雲端上下載    
+<https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
   
 資料部分 :
-<https://drive.google.com/drive/u/0/folders/1zeV3bAjdG1tpcYXDBBUvgLOG5hIFmibL>  
-
 * Original_data 請下載後直接將裡面包含的資料夾放到Bone_script/ 底下  
 * Detect_data 內包含Lesion_script/內處理過可用來直接訓練的資料，解壓縮完將3個資料夾放到Lesion_script/ 底下  
   
