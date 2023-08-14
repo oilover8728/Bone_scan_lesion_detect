@@ -17,7 +17,7 @@
 
 請先下
 `pip install torch==1.13.0+cu116 torchvision==0.14.0+cu116 torchaudio==0.13.0 --extra-index-url https://download.pytorch.org/whl/cu116`  
-來確保可以使用GPU
+來確保可以使用GPU  
 requirment.txt為所使用套件  
 pip: -r requirements.txt  
 安裝相應版本來保證所有程式運作正常  
