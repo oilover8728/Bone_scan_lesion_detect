@@ -14,7 +14,10 @@
 * 0809_FCOS_whole_pair_STOD_seed115_recallbest  
 放入Lesion_script/weight 資料夾內分別代表Patch/Whole image訓練出來的weight  
 即可確保所有程式正常運作  
-  
+
+請先下
+`pip install torch==1.13.0+cu116 torchvision==0.14.0+cu116 torchaudio==0.13.0 --extra-index-url https://download.pytorch.org/whl/cu116`  
+來確保可以使用GPU
 requirment.txt為所使用套件  
 pip: -r requirements.txt  
 安裝相應版本來保證所有程式運作正常  
